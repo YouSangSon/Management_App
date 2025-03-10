@@ -14,6 +14,7 @@ class DashboardPage extends ConsumerStatefulWidget {
 }
 
 class _DashboardPageState extends ConsumerState<DashboardPage> {
+  // Always false to keep sidebar expanded
   bool _isSidebarCollapsed = false;
   String _currentSection = 'Dashboard';
   String _currentSubsection = 'Overview';
@@ -38,10 +39,10 @@ class _DashboardPageState extends ConsumerState<DashboardPage> {
     }
   }
 
+  // The toggle function is kept but modified to not change the state
   void _toggleSidebar() {
-    setState(() {
-      _isSidebarCollapsed = !_isSidebarCollapsed;
-    });
+    // Do nothing - sidebar will always stay expanded
+    AppLogger().logInfo('Sidebar toggle attempted but disabled');
   }
 
   void _navigateTo(String section, {String? subsection}) {

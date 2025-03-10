@@ -27,7 +27,7 @@ class Sidebar extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final theme = Theme.of(context);
     final user = Supabase.instance.client.auth.currentUser;
-    final companyName = isKorean ? '그린테크 주식회사' : 'GreenTech Inc';
+    final companyName = isKorean ? 'OOO 주식회사' : 'OOO Inc';
     final enterpriseText = isKorean ? 'ERP 시스템' : 'ERP System';
 
     return AnimatedContainer(
@@ -70,16 +70,16 @@ class Sidebar extends ConsumerWidget {
                   ),
                 ],
                 // 접기/펼치기 버튼
-                IconButton(
-                  icon: Icon(
-                    isCollapsed ? Icons.menu_open : Icons.menu,
-                    color: Colors.white,
-                  ),
-                  onPressed: onToggle,
-                  tooltip: isCollapsed
-                      ? (isKorean ? '메뉴 펼치기' : 'Expand Menu')
-                      : (isKorean ? '메뉴 접기' : 'Collapse Menu'),
-                ),
+                // IconButton(
+                //   icon: Icon(
+                //     isCollapsed ? Icons.menu_open : Icons.menu,
+                //     color: Colors.white,
+                //   ),
+                //   onPressed: onToggle,
+                //   tooltip: isCollapsed
+                //       ? (isKorean ? '메뉴 펼치기' : 'Expand Menu')
+                //       : (isKorean ? '메뉴 접기' : 'Collapse Menu'),
+                // ),
               ],
             ),
           ),
@@ -110,6 +110,8 @@ class Sidebar extends ConsumerWidget {
                     isCollapsed: isCollapsed,
                     isSelected: currentSection == 'HR Management',
                     onTap: () => onNavigate('HR Management'),
+                    onSubmenuTap: (submenu) =>
+                        onNavigate('HR Management', subsection: submenu),
                   ),
 
                   // 인사 관리 하위 메뉴들 (별도 메뉴 아이템으로 표시)
@@ -121,28 +123,6 @@ class Sidebar extends ConsumerWidget {
                         currentSubsection == '직원 목록',
                     onTap: () =>
                         onNavigate('HR Management', subsection: '직원 목록'),
-                    indent: true,
-                  ),
-
-                  _buildSubMenuItem(
-                    icon: Icons.payments_outlined,
-                    title: isKorean ? '급여 관리' : 'Payroll',
-                    isCollapsed: isCollapsed,
-                    isSelected: currentSection == 'HR Management' &&
-                        currentSubsection == '급여 관리',
-                    onTap: () =>
-                        onNavigate('HR Management', subsection: '급여 관리'),
-                    indent: true,
-                  ),
-
-                  _buildSubMenuItem(
-                    icon: Icons.event_available_outlined,
-                    title: isKorean ? '근태 관리' : 'Attendance',
-                    isCollapsed: isCollapsed,
-                    isSelected: currentSection == 'HR Management' &&
-                        currentSubsection == '근태 관리',
-                    onTap: () =>
-                        onNavigate('HR Management', subsection: '근태 관리'),
                     indent: true,
                   ),
 

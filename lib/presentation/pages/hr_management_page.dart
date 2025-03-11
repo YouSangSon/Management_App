@@ -311,46 +311,102 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('급여 상세 정보'),
+          backgroundColor: _isDarkMode ? Colors.grey.shade900 : Colors.white,
+          title: Text(
+            '급여 상세 정보',
+            style: TextStyle(
+              color: _isDarkMode ? Colors.white : Colors.black,
+            ),
+          ),
           content: SizedBox(
             width: 400,
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('홍길동 (EMP001)',
-                    style: TextStyle(fontWeight: FontWeight.bold)),
-                const Text('2023년 12월 급여'),
-                const Divider(),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('기본급'),
-                    Text('₩3,000,000'),
-                  ],
+                Text(
+                  '홍길동 (EMP001)',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    color: _isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('수당'),
-                    Text('₩500,000'),
-                  ],
-                ),
-                const Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('공제'),
-                    Text('₩450,000'),
-                  ],
+                Text(
+                  '2023년 12월 급여',
+                  style: TextStyle(
+                    color: _isDarkMode ? Colors.white : Colors.black,
+                  ),
                 ),
                 const Divider(),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('총지급액', style: TextStyle(fontWeight: FontWeight.bold)),
-                    Text('₩3,050,000',
-                        style: TextStyle(
-                            fontWeight: FontWeight.bold, color: Colors.blue)),
+                    Text(
+                      '기본급',
+                      style: TextStyle(
+                        color: _isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    Text(
+                      '₩3,000,000',
+                      style: TextStyle(
+                        color: _isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '수당',
+                      style: TextStyle(
+                        color: _isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    Text(
+                      '₩500,000',
+                      style: TextStyle(
+                        color: _isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '공제',
+                      style: TextStyle(
+                        color: _isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    Text(
+                      '₩450,000',
+                      style: TextStyle(
+                        color: _isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                  ],
+                ),
+                const Divider(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      '총지급액',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: _isDarkMode ? Colors.white : Colors.black,
+                      ),
+                    ),
+                    Text(
+                      '₩3,050,000',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        color: Colors.blue,
+                      ),
+                    ),
                   ],
                 ),
               ],
@@ -359,7 +415,13 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('닫기'),
+              child: Text(
+                '닫기',
+                style: TextStyle(
+                  color:
+                      _isDarkMode ? Colors.grey.shade300 : Colors.grey.shade700,
+                ),
+              ),
             ),
           ],
         );
@@ -374,8 +436,13 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
         _getFilteredEmployees();
 
     if (filteredEmployees.isEmpty) {
-      return const Center(
-        child: Text('검색 결과가 없습니다.'),
+      return Center(
+        child: Text(
+          '검색 결과가 없습니다.',
+          style: TextStyle(
+            color: _isDarkMode ? Colors.white : Colors.black,
+          ),
+        ),
       );
     }
 
@@ -396,12 +463,12 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
     final headerStyle = TextStyle(
       fontWeight: FontWeight.bold,
       fontSize: 13,
-      color: _isDarkMode ? Colors.white : Colors.black87,
+      color: _isDarkMode ? Colors.white : Colors.black,
     );
 
     final cellStyle = TextStyle(
       fontSize: 12,
-      color: _isDarkMode ? Colors.white : Colors.black87,
+      color: _isDarkMode ? Colors.white : Colors.black,
     );
 
     final headerBackgroundColor =
@@ -443,7 +510,7 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
                   style: TextStyle(
                     fontWeight: FontWeight.bold,
                     fontSize: 16,
-                    color: _isDarkMode ? Colors.white : Colors.black87,
+                    color: _isDarkMode ? Colors.white : Colors.black,
                   ),
                 ),
                 ElevatedButton.icon(
@@ -577,7 +644,7 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
                                             fontWeight: FontWeight.bold,
                                             color: _isDarkMode
                                                 ? Colors.white
-                                                : Colors.black87,
+                                                : Colors.black,
                                           ),
                                         ),
                                         120,
@@ -591,7 +658,7 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
                                           style: TextStyle(
                                             color: _isDarkMode
                                                 ? Colors.white
-                                                : Colors.black87,
+                                                : Colors.black,
                                           ),
                                         ),
                                         100,
@@ -605,7 +672,7 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
                                           style: TextStyle(
                                             color: _isDarkMode
                                                 ? Colors.white
-                                                : Colors.black87,
+                                                : Colors.black,
                                           ),
                                         ),
                                         100,
@@ -619,7 +686,7 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
                                           style: TextStyle(
                                             color: _isDarkMode
                                                 ? Colors.white
-                                                : Colors.black87,
+                                                : Colors.black,
                                           ),
                                         ),
                                         100,
@@ -660,7 +727,7 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
                                             fontSize: 12,
                                             color: _isDarkMode
                                                 ? Colors.white
-                                                : Colors.black87,
+                                                : Colors.black,
                                           ),
                                         ),
                                         120,
@@ -675,7 +742,7 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
                                             fontSize: 12,
                                             color: _isDarkMode
                                                 ? Colors.white
-                                                : Colors.black87,
+                                                : Colors.black,
                                           ),
                                         ),
                                         150,
@@ -690,7 +757,7 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
                                             fontSize: 12,
                                             color: _isDarkMode
                                                 ? Colors.white
-                                                : Colors.black87,
+                                                : Colors.black,
                                           ),
                                         ),
                                         120,
@@ -707,7 +774,7 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
                                             fontSize: 12,
                                             color: _isDarkMode
                                                 ? Colors.white
-                                                : Colors.black87,
+                                                : Colors.black,
                                           ),
                                           overflow: TextOverflow.ellipsis,
                                           maxLines: 2,
@@ -724,7 +791,7 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
                                             fontSize: 12,
                                             color: _isDarkMode
                                                 ? Colors.white
-                                                : Colors.black87,
+                                                : Colors.black,
                                           ),
                                         ),
                                         180,
@@ -739,7 +806,7 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
                                             fontSize: 12,
                                             color: _isDarkMode
                                                 ? Colors.white
-                                                : Colors.black87,
+                                                : Colors.black,
                                           ),
                                         ),
                                         180,
@@ -1607,16 +1674,29 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
             padding: const EdgeInsets.all(16.0),
             child: Row(
               children: [
-                const Text('조회 월: '),
+                Text(
+                  '조회 월: ',
+                  style: TextStyle(
+                    color: _isDarkMode ? Colors.white : Colors.black,
+                  ),
+                ),
                 DropdownButton<String>(
                   value: '2023년 12월',
                   items: ['2023년 12월', '2023년 11월', '2023년 10월']
                       .map((month) => DropdownMenuItem(
                             value: month,
-                            child: Text(month),
+                            child: Text(
+                              month,
+                              style: TextStyle(
+                                color:
+                                    _isDarkMode ? Colors.white : Colors.black,
+                              ),
+                            ),
                           ))
                       .toList(),
                   onChanged: (_) {},
+                  dropdownColor:
+                      _isDarkMode ? Colors.grey.shade800 : Colors.white,
                 ),
                 const Spacer(),
                 ElevatedButton.icon(
@@ -1629,7 +1709,12 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
           ),
           Expanded(
             child: Center(
-              child: Text('급여 관리 화면입니다.'),
+              child: Text(
+                '급여 관리 화면입니다.',
+                style: TextStyle(
+                  color: _isDarkMode ? Colors.white : Colors.black,
+                ),
+              ),
             ),
           ),
         ],
@@ -1643,15 +1728,37 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('직원 추가'),
-          content: const Text('직원 추가 양식이 여기에 표시됩니다.'),
+          backgroundColor: _isDarkMode ? Colors.grey.shade900 : Colors.white,
+          title: Text(
+            '직원 추가',
+            style: TextStyle(
+              color: _isDarkMode ? Colors.white : Colors.black,
+            ),
+          ),
+          content: Text(
+            '직원 추가 양식이 여기에 표시됩니다.',
+            style: TextStyle(
+              color: _isDarkMode ? Colors.white : Colors.black,
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('취소'),
+              child: Text(
+                '취소',
+                style: TextStyle(
+                  color:
+                      _isDarkMode ? Colors.grey.shade300 : Colors.grey.shade700,
+                ),
+              ),
             ),
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    _isDarkMode ? Colors.blue.shade700 : Colors.blue,
+                foregroundColor: Colors.white,
+              ),
               child: const Text('저장'),
             ),
           ],
@@ -1667,15 +1774,37 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: Text('${employee['name']} 정보 수정'),
-          content: const Text('직원 정보 수정 양식이 여기에 표시됩니다.'),
+          backgroundColor: _isDarkMode ? Colors.grey.shade900 : Colors.white,
+          title: Text(
+            '${employee['name']} 정보 수정',
+            style: TextStyle(
+              color: _isDarkMode ? Colors.white : Colors.black,
+            ),
+          ),
+          content: Text(
+            '직원 정보 수정 양식이 여기에 표시됩니다.',
+            style: TextStyle(
+              color: _isDarkMode ? Colors.white : Colors.black,
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('취소'),
+              child: Text(
+                '취소',
+                style: TextStyle(
+                  color:
+                      _isDarkMode ? Colors.grey.shade300 : Colors.grey.shade700,
+                ),
+              ),
             ),
             ElevatedButton(
               onPressed: () => Navigator.pop(context),
+              style: ElevatedButton.styleFrom(
+                backgroundColor:
+                    _isDarkMode ? Colors.blue.shade700 : Colors.blue,
+                foregroundColor: Colors.white,
+              ),
               child: const Text('저장'),
             ),
           ],
@@ -1691,17 +1820,35 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
       context: context,
       builder: (context) {
         return AlertDialog(
-          title: const Text('직원 삭제'),
-          content:
-              Text('${employee['name']}(${employee['id']}) 직원을 정말 삭제하시겠습니까?'),
+          backgroundColor: _isDarkMode ? Colors.grey.shade900 : Colors.white,
+          title: Text(
+            '직원 삭제',
+            style: TextStyle(
+              color: _isDarkMode ? Colors.white : Colors.black,
+            ),
+          ),
+          content: Text(
+            '${employee['name']}(${employee['id']}) 직원을 정말 삭제하시겠습니까?',
+            style: TextStyle(
+              color: _isDarkMode ? Colors.white : Colors.black,
+            ),
+          ),
           actions: [
             TextButton(
               onPressed: () => Navigator.pop(context),
-              child: const Text('취소'),
+              child: Text(
+                '취소',
+                style: TextStyle(
+                  color:
+                      _isDarkMode ? Colors.grey.shade300 : Colors.grey.shade700,
+                ),
+              ),
             ),
             TextButton(
               onPressed: () => Navigator.pop(context),
-              style: TextButton.styleFrom(foregroundColor: Colors.red),
+              style: TextButton.styleFrom(
+                foregroundColor: Colors.red,
+              ),
               child: const Text('삭제'),
             ),
           ],
@@ -1717,17 +1864,18 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TabBar(
-            tabs: [
+          TabBar(
+            tabs: const [
               Tab(text: '기본 정보'),
               Tab(text: '학력/경력'),
               Tab(text: '자격증'),
               Tab(text: '어학능력'),
               Tab(text: '급여 정보'),
             ],
-            labelColor: Colors.blue,
-            unselectedLabelColor: Colors.grey,
-            indicatorColor: Colors.blue,
+            labelColor: _isDarkMode ? Colors.white : Colors.blue,
+            unselectedLabelColor:
+                _isDarkMode ? Colors.grey : Colors.grey.shade700,
+            indicatorColor: _isDarkMode ? Colors.white : Colors.blue,
           ),
           const SizedBox(height: 16),
           Expanded(
@@ -1736,13 +1884,41 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
                 // 기본 정보 탭
                 _buildBasicInfoTab(employee),
                 // 학력/경력 탭
-                Center(child: Text('학력/경력 정보')),
+                Center(
+                  child: Text(
+                    '학력/경력 정보',
+                    style: TextStyle(
+                      color: _isDarkMode ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
                 // 자격증 탭
-                Center(child: Text('자격증 정보')),
+                Center(
+                  child: Text(
+                    '자격증 정보',
+                    style: TextStyle(
+                      color: _isDarkMode ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
                 // 어학능력 탭
-                Center(child: Text('어학능력 정보')),
+                Center(
+                  child: Text(
+                    '어학능력 정보',
+                    style: TextStyle(
+                      color: _isDarkMode ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
                 // 급여 정보 탭
-                Center(child: Text('급여 정보')),
+                Center(
+                  child: Text(
+                    '급여 정보',
+                    style: TextStyle(
+                      color: _isDarkMode ? Colors.white : Colors.black,
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -1826,13 +2002,19 @@ class _HRManagementPageState extends ConsumerState<HRManagementPage> {
             width: 80,
             child: Text(
               label,
-              style: const TextStyle(
+              style: TextStyle(
                 fontWeight: FontWeight.bold,
+                color: _isDarkMode ? Colors.white : Colors.black,
               ),
             ),
           ),
           Expanded(
-            child: Text(value),
+            child: Text(
+              value,
+              style: TextStyle(
+                color: _isDarkMode ? Colors.white : Colors.black,
+              ),
+            ),
           ),
         ],
       ),

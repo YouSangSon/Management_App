@@ -150,3 +150,116 @@ CREATE INDEX idx_certificates_employee_id ON certificates(employee_id);
 CREATE INDEX idx_language_skills_employee_id ON language_skills(employee_id);
 CREATE INDEX idx_payroll_employee_id ON payroll(employee_id);
 CREATE INDEX idx_bank_accounts_employee_id ON bank_accounts(employee_id);
+
+-- 모든 테이블에 RLS 활성화
+ALTER TABLE employees ENABLE ROW LEVEL SECURITY;
+ALTER TABLE education ENABLE ROW LEVEL SECURITY;
+ALTER TABLE career ENABLE ROW LEVEL SECURITY;
+ALTER TABLE certificates ENABLE ROW LEVEL SECURITY;
+ALTER TABLE language_skills ENABLE ROW LEVEL SECURITY;
+ALTER TABLE payroll ENABLE ROW LEVEL SECURITY;
+ALTER TABLE bank_accounts ENABLE ROW LEVEL SECURITY;
+ALTER TABLE departments ENABLE ROW LEVEL SECURITY;
+
+-- 기본 정책: admin 역할은 모든 작업이 가능하도록 설정
+CREATE POLICY admin_all_employees ON employees FOR ALL TO authenticated USING (auth.hasRole('admin'));
+CREATE POLICY admin_all_education ON education FOR ALL TO authenticated USING (auth.hasRole('admin'));
+CREATE POLICY admin_all_career ON career FOR ALL TO authenticated USING (auth.hasRole('admin'));
+CREATE POLICY admin_all_certificates ON certificates FOR ALL TO authenticated USING (auth.hasRole('admin'));
+CREATE POLICY admin_all_language_skills ON language_skills FOR ALL TO authenticated USING (auth.hasRole('admin'));
+CREATE POLICY admin_all_payroll ON payroll FOR ALL TO authenticated USING (auth.hasRole('admin'));
+CREATE POLICY admin_all_bank_accounts ON bank_accounts FOR ALL TO authenticated USING (auth.hasRole('admin'));
+CREATE POLICY admin_all_departments ON departments FOR ALL TO authenticated USING (auth.hasRole('admin'));
+
+-- HR 역할을 위한 정책: HR은 모든 직원 정보를 볼 수 있지만 수정은 제한적
+CREATE POLICY hr_select_employees ON employees FOR SELECT TO authenticated USING (auth.hasRole('hr'));
+CREATE POLICY hr_insert_employees ON employees FOR INSERT TO authenticated WITH CHECK (auth.hasRole('hr'));
+CREATE POLICY hr_update_employees ON employees FOR UPDATE TO authenticated USING (auth.hasRole('hr'));
+
+CREATE POLICY hr_select_education ON education FOR SELECT TO authenticated USING (auth.hasRole('hr'));
+CREATE POLICY hr_insert_education ON education FOR INSERT TO authenticated WITH CHECK (auth.hasRole('hr'));
+CREATE POLICY hr_update_education ON education FOR UPDATE TO authenticated USING (auth.hasRole('hr'));
+
+CREATE POLICY hr_select_career ON career FOR SELECT TO authenticated USING (auth.hasRole('hr'));
+CREATE POLICY hr_insert_career ON career FOR INSERT TO authenticated WITH CHECK (auth.hasRole('hr'));
+CREATE POLICY hr_update_career ON career FOR UPDATE TO authenticated USING (auth.hasRole('hr'));
+
+CREATE POLICY hr_select_certificates ON certificates FOR SELECT TO authenticated USING (auth.hasRole('hr'));
+CREATE POLICY hr_insert_certificates ON certificates FOR INSERT TO authenticated WITH CHECK (auth.hasRole('hr'));
+CREATE POLICY hr_update_certificates ON certificates FOR UPDATE TO authenticated USING (auth.hasRole('hr'));
+
+CREATE POLICY hr_select_language_skills ON language_skills FOR SELECT TO authenticated USING (auth.hasRole('hr'));
+CREATE POLICY hr_insert_language_skills ON language_skills FOR INSERT TO authenticated WITH CHECK (auth.hasRole('hr'));
+CREATE POLICY hr_update_language_skills ON language_skills FOR UPDATE TO authenticated USING (auth.hasRole('hr'));
+
+-- 급여 정보는 HR만 모든 작업 가능
+CREATE POLICY hr_all_payroll ON payroll FOR ALL TO authenticated USING (auth.hasRole('hr'));
+
+-- 은행 계좌 정보는 HR만 모든 작업 가능 
+CREATE POLICY hr_all_bank_accounts ON bank_accounts FOR ALL TO authenticated USING (auth.hasRole('hr'));
+
+-- 부서 관리는 HR만 가능
+CREATE POLICY hr_all_departments ON departments FOR ALL TO authenticated USING (auth.hasRole('hr'));
+
+-- 부서장 역할을 위한 정책: 자신의 부서원에 대한 정보만 볼 수 있음
+CREATE POLICY manager_select_employees ON employees FOR SELECT TO authenticated 
+USING (
+  EXISTS (
+    SELECT 1 FROM departments 
+    WHERE departments.id = employees.department
+    AND departments.manager_id = auth.uid()
+  ) OR employees.id = auth.uid()
+);
+
+-- 일반 사용자 역할을 위한 정책: 자신의 정보만 볼 수 있음
+CREATE POLICY user_select_own_employees ON employees FOR SELECT TO authenticated 
+USING (employees.id = auth.uid());
+
+CREATE POLICY user_select_own_education ON education FOR SELECT TO authenticated 
+USING (education.employee_id = auth.uid());
+
+CREATE POLICY user_select_own_career ON career FOR SELECT TO authenticated 
+USING (career.employee_id = auth.uid());
+
+CREATE POLICY user_select_own_certificates ON certificates FOR SELECT TO authenticated 
+USING (certificates.employee_id = auth.uid());
+
+CREATE POLICY user_select_own_language_skills ON language_skills FOR SELECT TO authenticated 
+USING (language_skills.employee_id = auth.uid());
+
+CREATE POLICY user_select_own_payroll ON payroll FOR SELECT TO authenticated 
+USING (payroll.employee_id = auth.uid());
+
+CREATE POLICY user_select_own_bank_accounts ON bank_accounts FOR SELECT TO authenticated 
+USING (bank_accounts.employee_id = auth.uid());
+
+-- 사용자가 자기 자신의 일부 정보를 수정할 수 있도록 함 (예: 전화번호, 이메일, 주소 등)
+CREATE POLICY user_update_own_employees ON employees FOR UPDATE TO authenticated 
+USING (employees.id = auth.uid())
+WITH CHECK (
+  employees.id = auth.uid() AND 
+  -- 사용자가 수정할 수 없는 필드들은 기존 값과 동일해야 함
+  OLD.employee_id = NEW.employee_id AND
+  OLD.name = NEW.name AND
+  OLD.department = NEW.department AND
+  OLD.position = NEW.position AND
+  OLD.employment_type = NEW.employment_type AND
+  OLD.hire_date = NEW.hire_date AND
+  OLD.resignation_date = NEW.resignation_date AND
+  OLD.status = NEW.status
+);
+
+-- RLS 헬퍼 함수: 현재 사용자의 역할 확인
+CREATE OR REPLACE FUNCTION auth.hasRole(role_name TEXT)
+RETURNS BOOLEAN AS $$
+BEGIN
+  RETURN EXISTS (
+    SELECT 1
+    FROM auth.users
+    WHERE id = auth.uid() AND roles ? role_name
+  );
+END;
+$$ LANGUAGE plpgsql SECURITY DEFINER;
+
+-- 사용자 역할 저장을 위한 users 테이블 확장
+ALTER TABLE auth.users ADD COLUMN IF NOT EXISTS roles JSONB DEFAULT '{}';
